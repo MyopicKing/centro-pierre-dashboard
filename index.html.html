@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro Pierre — Meta Ads · Junio 2026</title>
+<style>
+/* ── TOKENS ── */
+:root{
+  --bg:#fff;--ink:#111;--b:#ddd;--soft:#f7f7f7;--mut:#888;
+  --grn:#1a7a1a;--red:#c0392b;--amb:#7a5800;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+
+/* ── HEADER ── */
+header{border-bottom:2px solid var(--ink);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{font-size:17px;font-weight:800;letter-spacing:-.5px}
+.brand small{display:block;font-size:11px;font-weight:400;color:var(--mut);margin-top:1px}
+.hbtns{display:flex;gap:8px}
+.hbtn{border:1.5px solid var(--b);padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;background:#fff;transition:all .15s;white-space:nowrap}
+.hbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* ── NAV ── */
+.nav{padding:10px 16px 0;border-bottom:1px solid var(--b);overflow-x:auto}
+.tabs{display:flex;border:1.5px solid var(--b);border-radius:8px;overflow:hidden;width:fit-content;margin-bottom:10px;min-width:0}
+.tab{padding:6px 13px;font-size:12px;font-weight:700;cursor:pointer;background:#fff;color:var(--mut);border:none;border-right:1.5px solid var(--b);white-space:nowrap;transition:all .15s;flex-shrink:0}
+.tab:last-child{border-right:none}
+.tab.on{background:var(--ink);color:#fff}
+.tab:hover:not(.on):not(.dis){background:#f0f0f0;color:var(--ink)}
+.tab.dis{opacity:.3;cursor:not-allowed;pointer-events:none}
+.tab.liv::after{content:' ●';font-size:9px;color:#e67e22}
+.tab.on.liv::after{color:#FFD700}
+
+/* ── MAIN ── */
+main{padding:16px;max-width:1100px}
+
+/* ── SECTION LABEL ── */
+.sec{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--mut);margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--b)}
+.sec:first-child{margin-top:8px}
+
+/* ── KPI GRID ── */
+.kg{display:grid;gap:8px;margin-bottom:4px}
+.k2{grid-template-columns:1fr 1fr}
+.k4{grid-template-columns:1fr 1fr}
+@media(min-width:600px){.k4{grid-template-columns:repeat(4,1fr)}}
+.k7{grid-template-columns:repeat(2,1fr)}
+@media(min-width:500px){.k7{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:800px){.k7{grid-template-columns:repeat(7,1fr)}}
+.kc{border:1.5px solid var(--b);border-radius:10px;padding:12px 13px}
+.kc.hi{border-color:var(--ink);border-width:2px}
+.kl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);margin-bottom:4px}
+.kv{font-size:19px;font-weight:800;letter-spacing:-.5px;line-height:1}
+.ks{font-size:11px;color:var(--mut);margin-top:3px}
+.kd{font-size:11px;font-weight:600;margin-top:4px}
+.up{color:var(--grn)}.dn{color:var(--red)}.nt{color:var(--mut)}
+
+/* ── DUAL BAR CHART ── */
+.chart-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 20px}
+.chart{display:flex;align-items:flex-end;gap:4px;min-width:360px;padding-top:28px;border-bottom:2px solid var(--ink);position:relative}
+.cg{flex:1;display:flex;flex-direction:column;align-items:center;min-width:44px}
+.cbars{display:flex;align-items:flex-end;gap:3px;width:100%;justify-content:center}
+.cb{flex:1;border-radius:2px 2px 0 0;position:relative;min-width:14px}
+.cb-r{background:var(--ink)}
+.cb-cpr{background:#aaa}
+.cnum{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;white-space:nowrap;color:var(--ink)}
+.cb-r .cnum{color:var(--ink)}
+.clabel{font-size:9px;font-weight:600;color:var(--mut);margin-top:5px;text-align:center;max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chart-legend{display:flex;gap:14px;font-size:11px;font-weight:600;margin-bottom:8px;flex-wrap:wrap}
+.cleg{display:flex;align-items:center;gap:5px}
+.csq{display:inline-block;width:9px;height:9px;border-radius:1px}
+.csq-r{background:var(--ink)}.csq-cpr{background:#aaa}
+
+/* ── RETENTION BARS ── */
+.ret{display:flex;flex-direction:column;gap:6px;margin-bottom:4px}
+.rr{display:flex;align-items:center;gap:8px}
+.rl{font-size:11px;font-weight:700;width:60px;text-align:right;color:var(--mut);flex-shrink:0}
+.rt{flex:1;background:var(--soft);border-radius:3px;height:20px;overflow:hidden}
+.rf{height:100%;background:var(--ink);border-radius:3px;display:flex;align-items:center;padding-left:6px;color:#fff;font-size:10px;font-weight:700}
+.rp{font-size:12px;color:var(--mut);width:40px;text-align:right;flex-shrink:0}
+
+/* ── HORIZ BAR ── */
+.hbch{display:flex;flex-direction:column;gap:8px;margin:4px 0 16px}
+.hbr{display:flex;align-items:center;gap:8px}
+.hbl{font-size:12px;font-weight:600;width:110px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbt{flex:1;background:var(--soft);border-radius:3px;height:22px;overflow:hidden}
+.hbf{height:100%;background:var(--ink);border-radius:3px;display:flex;align-items:center;padding:0 7px;color:#fff;font-size:11px;font-weight:700;min-width:24px}
+.hbv{font-size:11px;color:var(--mut);width:80px;flex-shrink:0}
+
+/* ── TABLE ── */
+.tw{border:1.5px solid var(--b);border-radius:10px;overflow:hidden;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;min-width:400px}
+th{background:var(--soft);color:var(--mut);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:9px 11px;text-align:right;white-space:nowrap;cursor:pointer;user-select:none;position:relative}
+th:first-child{text-align:left}
+th:hover{background:#eee}
+th.sorted-asc::after{content:' ▲';font-size:9px}
+th.sorted-desc::after{content:' ▼';font-size:9px}
+td{padding:9px 11px;border-top:1px solid var(--b);text-align:right;font-size:13px}
+td:first-child{text-align:left;font-weight:600}
+tr:hover td{background:#fafafa}
+.best{color:var(--grn);font-weight:700}.wrst{color:var(--red)}.mute{color:var(--mut);font-size:12px}
+
+/* ── COMMERCIAL ── */
+.comg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(min-width:600px){.comg{grid-template-columns:repeat(4,1fr)}}
+.comc{border:1.5px solid var(--b);border-radius:10px;padding:12px 13px}
+.comc.calc{background:var(--soft)}
+.coml{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);margin-bottom:7px}
+.comc input{width:100%;border:none;border-bottom:1.5px solid var(--b);font-size:18px;font-weight:800;padding:3px 0;background:transparent;color:var(--ink);outline:none;font-family:inherit}
+.comc input:focus{border-color:var(--ink)}
+.comc input::placeholder{color:#ccc}
+.cv{font-size:18px;font-weight:800}
+.cn{font-size:10px;color:var(--mut);margin-top:3px}
+
+/* ── EMPTY ── */
+.empty{border:1.5px solid var(--b);border-radius:12px;padding:40px 20px;text-align:center;margin-top:16px}
+.empty h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.empty p{font-size:13px;color:var(--mut)}
+
+/* ── EXTRAS & CONCLUSION ── */
+#extP{display:none}
+#extP.vis{display:block}
+.eg{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
+@media(min-width:700px){.eg{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.eg{grid-template-columns:1fr 1fr 1fr}}
+.ec{border:1.5px solid var(--b);border-radius:12px;padding:16px}
+.et{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--mut);margin-bottom:12px}
+.exbr{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.exbl{font-size:12px;font-weight:600;width:90px;flex-shrink:0}
+.exbw{flex:1;background:var(--soft);border-radius:3px;height:20px;overflow:hidden}
+.exbf{height:100%;background:var(--ink);border-radius:3px;display:flex;align-items:center;padding-left:6px;color:#fff;font-size:10px;font-weight:700}
+.exbp{font-size:11px;color:var(--mut);width:38px;text-align:right;flex-shrink:0}
+.exsub{font-size:11px;color:var(--mut);margin:-5px 0 8px 98px}
+
+.insight{border-left:3px solid var(--b);padding:8px 10px;margin-bottom:10px;border-radius:0 6px 6px 0}
+.insight.good{border-color:var(--grn)}
+.insight.warn{border-color:var(--amb)}
+.insight.info{border-color:var(--mut)}
+.insight h4{font-size:12px;font-weight:700;margin-bottom:3px}
+.insight p{font-size:12px;color:#444;line-height:1.5}
+
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:8px;border:1.5px solid;vertical-align:middle;margin-left:6px}
+.bw{border-color:var(--amb);color:var(--amb)}
+.fnote{font-size:11px;color:var(--mut);margin-top:32px;padding-top:12px;border-top:1px solid var(--b);line-height:1.6}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    Centro Pierre
+    <small>Dashboard Meta Ads · Conversaciones WhatsApp</small>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn" id="extBtn" onclick="toggleExt()">Extras + Conclusión</button>
+  </div>
+</header>
+
+<div class="nav" id="navArea">
+  <div class="tabs" id="mesTabs"></div>
+  <div class="tabs" id="semTabs"></div>
+</div>
+
+<main id="mainC"></main>
+<div id="extP">
+  <main style="padding:16px;max-width:1100px" id="extC"></main>
+</div>
+
+<script>
+/* ════════════════════════════════════════
+   DATA  — str_replace semanal
+   ════════════════════════════════════════ */
+const D = {
+  meses: {
+    junio_2026: {
+      label: 'Junio 2026',
+      semanas: {
+        S1: { label:'S1: 1–7 Jun',   activa:false, parcial:false, datos:null },
+        S2: { label:'S2: 8–14 Jun',  activa:false, parcial:false, datos:null },
+        S3: {
+          label:'S3: 15–21 Jun', activa:true, parcial:false,
+          datos:{
+            spend:178951.20, res:323, imp:118436, alc:76513, clk:2230,
+            v25:12869, v50:7334, v75:5337, v95:4081, v100:3737,
+            cursos:{
+              'Peluquería':    {r:115,spend:56611.35,imp:36030,alc:21027,clk:689, v25:3867,v50:2235,v75:1713,v95:1314,v100:1217},
+              'Pelu Canina':   {r:64, spend:39322.93,imp:24888,alc:17637,clk:571, v25:2822,v50:1561,v75:1129,v95:776, v100:728},
+              'Barbería':      {r:45, spend:22606.97,imp:15477,alc:9718, clk:239, v25:1088,v50:673, v75:510, v95:389, v100:367},
+              'Maquillaje':    {r:44, spend:20931.03,imp:11962,alc:7022, clk:274, v25:1628,v50:953, v75:655, v95:556, v100:490},
+              'Bartender':     {r:24, spend:11692.69,imp:10670,alc:7979, clk:174, v25:802, v50:418, v75:244, v95:167, v100:105},
+              'Lashista':      {r:23, spend:16148.32,imp:10052,alc:6280, clk:174, v25:1804,v50:1076,v75:789, v95:645, v100:610},
+              'Rep. Celulares':{r:8,  spend:11637.91,imp:9357, alc:6850, clk:109, v25:858, v50:418, v75:297, v95:234, v100:220}
+            },
+            com:{cot:null,cie:null,fac:null}
+          }
+        },
+        S4: {
+          label:'S4: 22–25 Jun', activa:true, parcial:true,
+          datos:{
+            spend:111756.86, res:317, imp:94278, alc:65687, clk:1654,
+            v25:8284, v50:4834, v75:3041, v95:2080, v100:1718,
+            cursos:{
+              'Pelu Canina':   {r:123,spend:43247.50,imp:36519,alc:27572,clk:644, v25:3231,v50:1969,v75:1108,v95:711, v100:654},
+              'Bartender':     {r:111,spend:37897.99,imp:37390,alc:24810,clk:555, v25:2721,v50:1468,v75:918, v95:605, v100:369},
+              'Peluquería':    {r:35, spend:9666.89, imp:7369, alc:4847, clk:158, v25:680, v50:435, v75:339, v95:232, v100:221},
+              'Maquillaje':    {r:25, spend:10915.75,imp:6325, alc:4007, clk:158, v25:752, v50:447, v75:300, v95:250, v100:208},
+              'Lashista':      {r:13, spend:5000.05, imp:3242, alc:2188, clk:72,  v25:564, v50:329, v75:245, v95:194, v100:182},
+              'Barbería':      {r:3,  spend:2298.98, imp:1567, alc:1076, clk:31,  v25:111, v50:67,  v75:52,  v95:29,  v100:27},
+              'Rep. Celulares':{r:7,  spend:2729.70, imp:1866, alc:1187, clk:36,  v25:225, v50:119, v75:79,  v95:59,  v100:57}
+            },
+            com:{cot:null,cie:null,fac:null}
+          }
+        }
+      }
+    },
+    julio_2026:{
+      label:'Julio 2026',
+      semanas:{
+        S1:{label:'S1: 1–7 Jul',  activa:false,parcial:false,datos:null},
+        S2:{label:'S2: 8–14 Jul', activa:false,parcial:false,datos:null},
+        S3:{label:'S3: 15–21 Jul',activa:false,parcial:false,datos:null},
+        S4:{label:'S4: 22–28 Jul',activa:false,parcial:false,datos:null}
+      }
+    }
+  },
+  ads:[
+    {n:'Reel - Pelu Canina - Feb',      r:187,spend:82570.43,imp:61407,alc:40392,clk:1215,cpr:441.55,ctr:1.98,v25:6053,v50:3530,v75:2237,v95:1487,v100:1382,t:'Reel'},
+    {n:'Reel - Bartender - Nov',        r:135,spend:49590.68,imp:48060,alc:28060,clk:729, cpr:367.34,ctr:1.52,v25:3523,v50:1886,v75:1162,v95:772, v100:474, t:'Reel'},
+    {n:'Reel - Peluqueria - Jun A',     r:112,spend:48134.78,imp:32051,alc:18350,clk:620, cpr:429.77,ctr:1.93,v25:2697,v50:1713,v75:1373,v95:990, v100:923, t:'Reel'},
+    {n:'Reel - Maquillaje - Jun',       r:63, spend:26512.41,imp:15334,alc:8165, clk:370, cpr:420.83,ctr:2.41,v25:1787,v50:1078,v75:724, v95:616, v100:515, t:'Reel'},
+    {n:'Reel - Barberia - Jun B',       r:39, spend:19612.55,imp:12765,alc:7794, clk:222, cpr:502.89,ctr:1.74,v25:804, v50:524, v75:415, v95:306, v100:285, t:'Reel'},
+    {n:'Histo - Lashista - Jun',        r:27, spend:17772.56,imp:11544,alc:6998, clk:204, cpr:658.24,ctr:1.77,v25:2069,v50:1218,v75:917, v95:757, v100:718, t:'Histo'},
+    {n:'Reel - Peluqueria - Jun B',     r:24, spend:10999.58,imp:6465, alc:5446, clk:146, cpr:458.32,ctr:2.26,v25:604, v50:383, v75:301, v95:229, v100:214, t:'Reel'},
+    {n:'Histo - Peluqueria - Jun',      r:14, spend:7143.88, imp:4883, alc:3613, clk:81,  cpr:510.28,ctr:1.66,v25:1246,v50:574, v75:378, v95:327, v100:301, t:'Histo'},
+    {n:'Histo - Rep Celulares - Jun',   r:12, spend:12169.32,imp:9798, alc:6839, clk:124, cpr:1014.11,ctr:1.27,v25:1029,v50:507, v75:355, v95:279, v100:263, t:'Histo'},
+    {n:'Reel - Lashista - Jun',         r:9,  spend:3375.81, imp:1750, alc:1218, clk:42,  cpr:375.09,ctr:2.40,v25:299, v50:187, v75:117, v95:82,  v100:74,  t:'Reel'},
+    {n:'Reel - Barberia - Jun A',       r:8,  spend:2810.02, imp:1822, alc:1545, clk:22,  cpr:351.25,ctr:1.21,v25:93,  v50:64,  v75:47,  v95:36,  v100:35,  t:'Reel'},
+    {n:'Histo - Maquillaje - Jun',      r:6,  spend:5334.37, imp:2953, alc:2202, clk:62,  cpr:889.06,ctr:2.10,v25:593, v50:322, v75:231, v95:190, v100:183, t:'Histo'},
+    {n:'Reel - Rep Celulares - Jun A',  r:2,  spend:781.14,  imp:513,  alc:392,  clk:11,  cpr:390.57,ctr:2.14,v25:25,  v50:15,  v75:11,  v95:8,   v100:8,   t:'Reel'},
+    {n:'Reel - Rep Celulares - Jun B',  r:1,  spend:1417.15, imp:912,  alc:781,  clk:10,  cpr:1417.15,ctr:1.10,v25:29, v50:15,  v75:10,  v95:6,   v100:6,   t:'Reel'},
+    {n:'Histo - Barberia - Jun',        r:1,  spend:2483.38, imp:2457, alc:1967, clk:26,  cpr:2483.38,ctr:1.06,v25:302,v50:152, v75:100, v95:76,  v100:74,  t:'Histo'}
+  ],
+  extras:{
+    periodo:'26 de Mayo – 24 de Junio de 2026',
+    genero:[
+      {l:'Femenino',  spend:317046.05,imp:234711,alc:71544,clk:5068,pct:80.5},
+      {l:'Masculino', spend:76622.31, imp:69354, alc:28374,clk:1176,pct:19.4},
+      {l:'Desconoc.', spend:2906.39,  imp:1619,  alc:577,  clk:41,  pct:0.7}
+    ],
+    plataforma:[
+      {l:'Facebook',  spend:262608.93,imp:210730,alc:68853,clk:5220,ctr:2.48,cpm:1246,pct:66.5},
+      {l:'Instagram', spend:109883.08,imp:71662, alc:32467,clk:897, ctr:1.25,cpm:1533,pct:27.8},
+      {l:'WhatsApp',  spend:24082.74, imp:23292, alc:18998,clk:168, ctr:0.72,cpm:1034,pct:6.1}
+    ]
+  }
+};
+
+/* ════════════════════════════════════════
+   STATE
+   ════════════════════════════════════════ */
+let aMes='junio_2026', aSem='S3', showExt=false;
+
+/* ════════════════════════════════════════
+   FORMATTERS — defensivos contra undefined/NaN/null
+   ════════════════════════════════════════ */
+function safe(v){ return (v===null||v===undefined||isNaN(v)); }
+const fARS = v => safe(v)?'—': v>=1e6?'$'+(v/1e6).toFixed(2)+'M':'$'+Math.round(v).toLocaleString('es-AR');
+const fN   = v => safe(v)?'—':Math.round(v).toLocaleString('es-AR');
+const fP   = (v,d=1) => safe(v)?'—':Number(v).toFixed(d)+'%';
+const fCPR = v => safe(v)?'—':'$'+Math.round(v).toLocaleString('es-AR');
+const fX   = v => safe(v)?'—':'x'+Number(v).toFixed(2);
+
+function dlta(cur,prev,inv=false,lbl='vs sem ant.'){
+  if(safe(cur)||safe(prev)||prev===0) return '';
+  const d=((cur-prev)/prev)*100;
+  if(safe(d)) return '';
+  const good=inv?d<0:d>0;
+  return `<span class="${good?'up':'dn'}">${d>0?'↑':'↓'} ${Math.abs(d).toFixed(1)}% ${lbl}</span>`;
+}
+
+/* ════════════════════════════════════════
+   DERIVED METRICS  — siempre calculadas on-the-fly
+   ════════════════════════════════════════ */
+function enrich(datos){
+  if(!datos) return null;
+  const d=Object.assign({},datos);
+  d.cpr  = d.res>0   ? d.spend/d.res      : null;
+  d.cpm  = d.imp>0   ? d.spend/d.imp*1000 : null;
+  d.ctr  = d.imp>0   ? d.clk/d.imp*100    : null;
+  d.freq = d.alc>0   ? d.imp/d.alc        : null;
+  d.h25  = d.imp>0   ? d.v25/d.imp*100    : null;
+  // enrich each curso
+  d.cursos = {};
+  Object.entries(datos.cursos||{}).forEach(([k,c])=>{
+    d.cursos[k]=Object.assign({},c,{
+      cpr: c.r>0   ? c.spend/c.r       : null,
+      ctr: c.imp>0 ? c.clk/c.imp*100   : null,
+      h25: c.imp>0 ? c.v25/c.imp*100   : null,
+      freq:c.alc>0 ? c.imp/c.alc       : null
+    });
+  });
+  return d;
+}
+
+function getTot(mes){
+  const ss=Object.values(D.meses[mes].semanas).filter(s=>s.activa&&s.datos);
+  if(!ss.length) return null;
+  const t={spend:0,res:0,imp:0,alc:0,clk:0,v25:0,v50:0,v75:0,v95:0,v100:0,cursos:{},com:{cot:null,cie:null,fac:null}};
+  ss.forEach(s=>{
+    const d=s.datos;
+    t.spend+=d.spend;t.res+=d.res;t.imp+=d.imp;t.alc+=d.alc;t.clk+=d.clk;
+    t.v25+=d.v25;t.v50+=d.v50;t.v75+=d.v75;t.v95+=d.v95;t.v100+=d.v100;
+    Object.entries(d.cursos||{}).forEach(([k,c])=>{
+      if(!t.cursos[k]) t.cursos[k]={r:0,spend:0,imp:0,alc:0,clk:0,v25:0,v50:0,v75:0,v95:0,v100:0};
+      const tc=t.cursos[k];
+      tc.r+=c.r;tc.spend+=c.spend;tc.imp+=c.imp;tc.alc+=c.alc;tc.clk+=c.clk;
+      tc.v25+=c.v25;tc.v50+=c.v50;tc.v75+=c.v75;tc.v95+=c.v95;tc.v100+=c.v100;
+    });
+  });
+  return enrich(t);
+}
+
+function getPrev(mes,semKey){
+  const keys=Object.keys(D.meses[mes].semanas);
+  for(let i=keys.indexOf(semKey)-1;i>=0;i--){
+    const s=D.meses[mes].semanas[keys[i]];
+    if(s.activa&&s.datos) return enrich(s.datos);
+  }
+  return null;
+}
+
+/* ════════════════════════════════════════
+   NAV
+   ════════════════════════════════════════ */
+function renderNav(){
+  document.getElementById('mesTabs').innerHTML=
+    Object.entries(D.meses).map(([k,m])=>{
+      const has=Object.values(m.semanas).some(s=>s.activa&&s.datos);
+      return `<button class="tab ${k===aMes?'on':''} ${!has&&k!==aMes?'dis':''}" onclick="swM('${k}')">${m.label}</button>`;
+    }).join('');
+
+  const sem=D.meses[aMes].semanas;
+  const hasTot=Object.values(sem).some(s=>s.activa&&s.datos);
+  let h=Object.entries(sem).map(([k,s])=>{
+    const on=aSem===k?'on':'';
+    const dis=(!s.activa&&!s.datos)?'dis':'';
+    const liv=s.parcial?'liv':'';
+    const fn=s.activa||s.datos?`swS('${k}')`:'';
+    return `<button class="tab ${on} ${dis} ${liv}" onclick="${fn}">${s.label}</button>`;
+  }).join('');
+  if(hasTot) h+=`<button class="tab ${aSem==='tot'?'on':''}" onclick="swS('tot')">Totales</button>`;
+  document.getElementById('semTabs').innerHTML=h;
+}
+
+/* ════════════════════════════════════════
+   KPI HELPER
+   ════════════════════════════════════════ */
+function kpi(label,val,sub,d='',hi=false){
+  return `<div class="kc ${hi?'hi':''}">
+    <div class="kl">${label}</div>
+    <div class="kv">${val}</div>
+    ${sub?`<div class="ks">${sub}</div>`:''}
+    ${d?`<div class="kd">${d}</div>`:''}
+  </div>`;
+}
+
+/* ════════════════════════════════════════
+   DUAL BAR CHART
+   ════════════════════════════════════════ */
+function dualChart(cursos){
+  const rows=Object.entries(cursos)
+    .map(([k,c])=>({lbl:k,r:c.r||0,cpr:c.cpr||0}))
+    .sort((a,b)=>b.r-a.r);
+  const maxR=Math.max(...rows.map(r=>r.r))||1;
+  const maxCPR=Math.max(...rows.map(r=>r.cpr))||1;
+  const CH=140;
+  const groups=rows.map(r=>{
+    const hR=Math.max(16,Math.round(r.r/maxR*CH));
+    const hC=Math.max(16,Math.round(r.cpr/maxCPR*CH));
+    const abbr=r.lbl.length>9?r.lbl.slice(0,8)+'…':r.lbl;
+    return `<div class="cg" title="${r.lbl}">
+      <div class="cbars" style="height:${CH}px">
+        <div class="cb cb-r" style="height:${hR}px"><span class="cnum">${r.r}</span></div>
+        <div class="cb cb-cpr" style="height:${hC}px"><span class="cnum" style="color:var(--mut)">${fCPR(r.cpr)}</span></div>
+      </div>
+      <div class="clabel">${abbr}</div>
+    </div>`;
+  }).join('');
+  return `<div class="chart-legend">
+    <div class="cleg"><span class="csq csq-r"></span> Conversaciones</div>
+    <div class="cleg"><span class="csq csq-cpr"></span> CPR (escala propia)</div>
+  </div>
+  <div class="chart-wrap"><div class="chart">${groups}</div></div>`;
+}
+
+/* ════════════════════════════════════════
+   SORTABLE TABLE
+   ════════════════════════════════════════ */
+let _sortState={};
+function makeSortable(tid){
+  const tbl=document.getElementById(tid);
+  if(!tbl) return;
+  tbl.querySelectorAll('th').forEach((th,col)=>{
+    th.onclick=()=>{
+      const cur=_sortState[tid+col]||'none';
+      const asc=cur!=='asc';
+      _sortState[tid+col]=asc?'asc':'desc';
+      const tbody=tbl.querySelector('tbody');
+      const rows=[...tbody.querySelectorAll('tr')];
+      rows.sort((a,b)=>{
+        const av=(a.cells[col]?.textContent||'').trim();
+        const bv=(b.cells[col]?.textContent||'').trim();
+        const an=parseFloat(av.replace(/[^0-9.-]/g,''));
+        const bn=parseFloat(bv.replace(/[^0-9.-]/g,''));
+        if(!isNaN(an)&&!isNaN(bn)) return asc?an-bn:bn-an;
+        return asc?av.localeCompare(bv,'es'):bv.localeCompare(av,'es');
+      });
+      rows.forEach(r=>tbody.appendChild(r));
+      tbl.querySelectorAll('th').forEach(h=>{h.className='';});
+      th.className=asc?'sorted-asc':'sorted-desc';
+    };
+  });
+}
+
+/* ════════════════════════════════════════
+   BUILD DASHBOARD
+   ════════════════════════════════════════ */
+function build(d,prev,isTot,isParcial){
+  if(!d) return '<div class="empty"><h3>Sin datos</h3><p>No hay información disponible.</p></div>';
+  const pb=isParcial?'<span class="badge bw">Semana parcial</span>':'';
+  let h='';
+
+  /* ── 1. RESULTADOS ── */
+  h+=`<div class="sec">1 · Resultados WhatsApp ${pb}</div>`;
+  h+=`<div class="kg k4">
+    ${kpi('Conversaciones',fN(d.res),'mensajes iniciados',dlta(d.res,prev?.res),true)}
+    ${kpi('CPR',fCPR(d.cpr)+' ARS','costo por conv.',dlta(d.cpr,prev?.cpr,true))}
+    ${kpi('Inversión Total',fARS(d.spend),'período activo',dlta(d.spend,prev?.spend))}
+    ${kpi('Alcance',fN(d.alc),'personas únicas',dlta(d.alc,prev?.alc))}
+  </div>`;
+  if(isParcial&&prev) h+=`<p class="nt" style="font-size:11px;margin:4px 0 8px">Comparación vs S3 (7 días vs 4 días — referencial)</p>`;
+
+  /* ── Gráfico doble ── */
+  h+=`<div class="sec">Conversaciones y CPR por Curso</div>`;
+  h+=dualChart(d.cursos);
+
+  /* ── Tabla cursos ── */
+  const ce=Object.entries(d.cursos).sort((a,b)=>b[1].r-a[1].r);
+  const cprs=ce.map(([,c])=>c.cpr).filter(v=>!safe(v));
+  const minCPR=Math.min(...cprs), maxCPR=Math.max(...cprs);
+  h+=`<div class="tw"><table id="tblC">
+    <thead><tr>
+      <th>Curso</th><th>Conv.</th><th>CPR (ARS)</th><th>Inversión</th><th>% Total</th><th>CTR</th><th>Hook 25%</th>
+    </tr></thead><tbody>`;
+  ce.forEach(([k,c])=>{
+    const pct=d.res>0?(c.r/d.res*100):0;
+    h+=`<tr>
+      <td>${k}</td>
+      <td>${fN(c.r)}</td>
+      <td class="${c.cpr===minCPR?'best':c.cpr===maxCPR?'wrst':''}">${fCPR(c.cpr)}</td>
+      <td>${fARS(c.spend)}</td>
+      <td>${fP(pct)}</td>
+      <td>${fP(c.ctr)}</td>
+      <td>${fP(c.h25)}</td>
+    </tr>`;
+  });
+  h+=`</tbody></table></div>`;
+
+  /* ── 2. INTERACCIÓN Y COSTOS ── */
+  h+=`<div class="sec">2 · Interacción y Costos</div>`;
+  h+=`<div class="kg k7">
+    ${kpi('Impresiones',fN(d.imp),'',dlta(d.imp,prev?.imp))}
+    ${kpi('Frecuencia',fP(d.freq),'imp / alcance',dlta(d.freq,prev?.freq,true))}
+    ${kpi('CPM',fCPR(d.cpm)+' ARS','por mil imp',dlta(d.cpm,prev?.cpm,true))}
+    ${kpi('CTR',fP(d.ctr),'clics / imp',dlta(d.ctr,prev?.ctr),true)}
+    ${kpi('Clics',fN(d.clk),'',dlta(d.clk,prev?.clk))}
+    ${kpi('CPR',fCPR(d.cpr)+' ARS','costo por conv.',dlta(d.cpr,prev?.cpr,true))}
+    ${kpi('Inversión',fARS(d.spend),'ARS','')}
+  </div>`;
+
+  /* ── Barras inversión por curso ── */
+  const maxSp=Math.max(...ce.map(([,c])=>c.spend))||1;
+  h+=`<div class="hbch">`;
+  ce.forEach(([k,c])=>{
+    const w=Math.max(10,Math.round(c.spend/maxSp*100));
+    h+=`<div class="hbr">
+      <div class="hbl">${k}</div>
+      <div class="hbt"><div class="hbf" style="width:${w}%">${fARS(c.spend)}</div></div>
+      <div class="hbv">${fN(c.r)} conv.</div>
+    </div>`;
+  });
+  h+=`</div>`;
+
+  /* ── 3. VIDEO Y RETENCIÓN ── */
+  h+=`<div class="sec">3 · Video y Retención</div>`;
+  const r25=safe(d.imp)?null:d.v25/d.imp*100;
+  const r50=safe(d.imp)?null:d.v50/d.imp*100;
+  const r75=safe(d.imp)?null:d.v75/d.imp*100;
+  const r95=safe(d.imp)?null:d.v95/d.imp*100;
+  const r100=safe(d.imp)?null:d.v100/d.imp*100;
+  h+=`<div class="kg k4" style="margin-bottom:14px">
+    ${kpi('Hook Rate',fP(r25),'v25 / imp (proxy 3-seg)')}
+    ${kpi('Ret. 50%',fP(r50),'de impresiones')}
+    ${kpi('Ret. 75%',fP(r75),'de impresiones')}
+    ${kpi('Ret. 100%',fP(r100),'video completo')}
+  </div>`;
+
+  /* Embudo de retención global */
+  const retSteps=[
+    {l:'25%',v:d.v25,pct:r25},{l:'50%',v:d.v50,pct:r50},
+    {l:'75%',v:d.v75,pct:r75},{l:'95%',v:d.v95,pct:r95},{l:'100%',v:d.v100,pct:r100}
+  ];
+  const maxRet=d.v25||1;
+  h+=`<div class="ret">`;
+  retSteps.forEach(s=>{
+    const w=Math.max(3,Math.round((s.v||0)/maxRet*100));
+    h+=`<div class="rr">
+      <div class="rl">${s.l}</div>
+      <div class="rt"><div class="rf" style="width:${w}%">${fN(s.v)}</div></div>
+      <div class="rp">${fP(s.pct)}</div>
+    </div>`;
+  });
+  h+=`</div>`;
+
+  /* ── 4. MÉTRICAS COMERCIALES ── */
+  h+=`<div class="sec">4 · Métricas Comerciales <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px">— Pierre completa</span></div>`;
+  const com=d.com||{};
+  h+=`<div class="comg">
+    <div class="comc">
+      <div class="coml">Cotizaciones recibidas</div>
+      <input type="number" id="iCot" placeholder="0" value="${com.cot||''}" oninput="calcCom()">
+    </div>
+    <div class="comc">
+      <div class="coml">Cierres / Inscripciones</div>
+      <input type="number" id="iCie" placeholder="0" value="${com.cie||''}" oninput="calcCom()">
+    </div>
+    <div class="comc">
+      <div class="coml">Facturación ARS</div>
+      <input type="number" id="iFac" placeholder="0" value="${com.fac||''}" oninput="calcCom()">
+    </div>
+    <div class="comc calc">
+      <div class="coml">Ticket Promedio</div>
+      <div class="cv" id="cTick">—</div>
+      <div class="cn">Facturación ÷ Cierres</div>
+    </div>
+  </div>
+  <div class="comg" style="margin-top:8px">
+    <div class="comc calc">
+      <div class="coml">CAC</div>
+      <div class="cv" id="cCAC">—</div>
+      <div class="cn">Inversión ÷ Cierres</div>
+    </div>
+    <div class="comc calc">
+      <div class="coml">Tasa de Cierre</div>
+      <div class="cv" id="cTC">—</div>
+      <div class="cn">Cierres ÷ Cotizaciones</div>
+    </div>
+    <div class="comc calc">
+      <div class="coml">ROAS</div>
+      <div class="cv" id="cROAS">—</div>
+      <div class="cn">Facturación ÷ Inversión</div>
+    </div>
+    <div class="comc calc">
+      <div class="coml">Conv → Cotización</div>
+      <div class="cv" id="cCQ">—</div>
+      <div class="cn">Cotizaciones ÷ Conversaciones</div>
+    </div>
+  </div>`;
+  h+=`<script>window._sp=${d.spend};window._rv=${d.res};<\/script>`;
+
+  /* ── 5. POR ANUNCIO ── */
+  if(!isTot){
+    h+=`<div class="sec">5 · Por Anuncio <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px">— Jun 15–25 combinado</span></div>`;
+    const sorted=[...D.ads].sort((a,b)=>b.r-a.r);
+    const minAd=Math.min(...sorted.map(a=>a.cpr)), maxAd=Math.max(...sorted.map(a=>a.cpr));
+    h+=`<div class="tw"><table id="tblA">
+      <thead><tr>
+        <th>Anuncio</th><th>Tipo</th><th>Conv.</th><th>CPR (ARS)</th>
+        <th>CTR</th><th>Clics</th><th>Hook 25%</th><th>Ret. 50%</th>
+      </tr></thead><tbody>`;
+    sorted.forEach(a=>{
+      const h25=safe(a.imp)?null:a.v25/a.imp*100;
+      const r50=safe(a.imp)?null:a.v50/a.imp*100;
+      h+=`<tr>
+        <td>${a.n}</td>
+        <td class="mute">${a.t}</td>
+        <td>${fN(a.r)}</td>
+        <td class="${a.cpr===minAd?'best':a.cpr===maxAd?'wrst':''}">${fCPR(a.cpr)}</td>
+        <td>${fP(a.ctr)}</td>
+        <td>${fN(a.clk)}</td>
+        <td>${fP(h25)}</td>
+        <td>${fP(r50)}</td>
+      </tr>`;
+    });
+    h+=`</tbody></table></div>`;
+  }
+
+  h+=`<div class="fnote">Cuenta Meta Ads: 182370584 · Objetivo: Conversaciones WhatsApp (messaging_deep_conversation) · Campañas inactivas Jun 1–14 — datos disponibles desde Jun 15. Hook Rate calculado como video_p25 / impresiones (Meta no reporta 3-sec para objetivo mensajes).</div>`;
+  return h;
+}
+
+/* ════════════════════════════════════════
+   COMERCIAL CALC
+   ════════════════════════════════════════ */
+function calcCom(){
+  const cot=parseFloat(document.getElementById('iCot')?.value)||0;
+  const cie=parseFloat(document.getElementById('iCie')?.value)||0;
+  const fac=parseFloat(document.getElementById('iFac')?.value)||0;
+  const sp=window._sp||0, rv=window._rv||0;
+  const s=id=>document.getElementById(id);
+  const sv=(id,v)=>{const el=s(id);if(el)el.textContent=v;};
+  sv('cCAC',  cie>0?fCPR(sp/cie)+' ARS':'—');
+  sv('cTC',   cot>0?fP(cie/cot*100):'—');
+  sv('cROAS', sp>0&&fac>0?fX(fac/sp):'—');
+  sv('cTick', cie>0&&fac>0?fARS(fac/cie):'—');
+  sv('cCQ',   rv>0&&cot>0?fP(cot/rv*100):'—');
+}
+
+/* ════════════════════════════════════════
+   EXTRAS + CONCLUSIÓN
+   ════════════════════════════════════════ */
+function renderExt(){
+  const e=D.extras;
+  const maxG=Math.max(...e.genero.map(g=>g.spend));
+  const maxP=Math.max(...e.plataforma.map(p=>p.spend));
+
+  /* Conclusiones cruzadas */
+  const s3=enrich(D.meses.junio_2026.semanas.S3.datos);
+  const s4=enrich(D.meses.junio_2026.semanas.S4.datos);
+  const insights=[
+    {
+      t:'good',ti:'Eficiencia mejoró 36% en la segunda semana',
+      tx:`CPR cayó de ${fCPR(s3.cpr)} (S3, 7 días) a ${fCPR(s4.cpr)} (S4, 4 días). El algoritmo encontró audiencia más calificada sin cambios en creativos.`
+    },
+    {
+      t:'good',ti:'Pelu Canina y Bartender dominaron S4',
+      tx:`Pelu Canina pasó de 64 a 123 conversaciones. Bartender explotó de 24 a 111. Ambos bajaron CPR más del 30%. Son los adsets que el algoritmo priorizó.`
+    },
+    {
+      t:'warn',ti:'Barbería se frenó en S4 — revisar presupuesto',
+      tx:`Cayó de 45 conversaciones ($502 CPR) a solo 3 ($766 CPR) en 4 días. No hay señal orgánica de fatiga — posible pausa o techo de gasto diario alcanzado.`
+    },
+    {
+      t:'warn',ti:'Rep. Celulares: CPR más caro, volumen bajo',
+      tx:`En S3 costó $1.454 por conversación. Mejoró a $389 en S4 pero sigue siendo el adset menos eficiente. Candidato a revisar segmentación o creativo.`
+    },
+    {
+      t:'info',ti:'Campañas inactivas Jun 1–14',
+      tx:`No hay inversión ni resultados en las primeras dos semanas del mes. Todos los datos corresponden al período Jun 15–25.`
+    },
+    {
+      t:'good',ti:'Frecuencia controlada — sin saturación',
+      tx:`Todos los adsets activos mantienen frecuencia entre 1.3 y 1.9. No hay señal de quema de audiencia. Se puede escalar presupuesto con seguridad.`
+    }
+  ];
+
+  let h=`<div class="eg">
+    <div class="ec">
+      <div class="et">Género · últimos 30 días</div>`;
+  e.genero.forEach(g=>{
+    const w=Math.max(8,Math.round(g.spend/maxG*100));
+    h+=`<div class="exbr">
+      <div class="exbl">${g.l}</div>
+      <div class="exbw"><div class="exbf" style="width:${w}%">${g.pct}%</div></div>
+      <div class="exbp">${g.pct}%</div>
+    </div>
+    <div class="exsub">${fARS(g.spend)} · ${fN(g.alc)} alcance · ${fN(g.clk)} clics</div>`;
+  });
+  h+=`</div>
+    <div class="ec">
+      <div class="et">Plataforma · últimos 30 días</div>`;
+  e.plataforma.forEach(p=>{
+    const w=Math.max(8,Math.round(p.spend/maxP*100));
+    h+=`<div class="exbr">
+      <div class="exbl">${p.l}</div>
+      <div class="exbw"><div class="exbf" style="width:${w}%">${p.pct}%</div></div>
+      <div class="exbp">${p.pct}%</div>
+    </div>
+    <div class="exsub">${fARS(p.spend)} · CTR ${p.ctr}% · CPM $${fN(p.cpm)}</div>`;
+  });
+  h+=`</div>
+    <div class="ec">
+      <div class="et">Conclusiones · Cruce de datos</div>`;
+  insights.forEach(i=>{
+    h+=`<div class="insight ${i.t}"><h4>${i.ti}</h4><p>${i.tx}</p></div>`;
+  });
+  h+=`</div></div>`;
+  h+=`<p style="font-size:11px;color:var(--mut);font-style:italic;margin:12px 0;"><em>Datos: ${e.periodo}. Orientativos — no cambian con el selector de semana.</em></p>`;
+  document.getElementById('extC').innerHTML=h;
+}
+
+/* ════════════════════════════════════════
+   RENDER CONTENT
+   ════════════════════════════════════════ */
+function renderContent(){
+  const mc=document.getElementById('mainC');
+  const sem=D.meses[aMes].semanas;
+
+  if(aSem==='tot'){
+    const t=getTot(aMes);
+    if(!t){mc.innerHTML='<div class="empty"><h3>Sin datos</h3><p>No hay semanas activas.</p></div>';return;}
+    mc.innerHTML=build(t,null,true,false);
+    setTimeout(()=>{makeSortable('tblC');calcCom();},0);
+    return;
+  }
+
+  const s=sem[aSem];
+  if(!s){mc.innerHTML='';return;}
+  if(!s.activa||!s.datos){
+    mc.innerHTML=`<div class="empty">
+      <h3>Sin actividad este período</h3>
+      <p>Las campañas no estuvieron activas durante ${s.label.replace(/S\d+:\s/,'')}. Los datos comienzan el 15 de Junio.</p>
+    </div>`;
+    return;
+  }
+  const d=enrich(s.datos);
+  const prev=getPrev(aMes,aSem);
+  mc.innerHTML=build(d,prev,false,s.parcial);
+  setTimeout(()=>{makeSortable('tblC');makeSortable('tblA');calcCom();},0);
+}
+
+/* ════════════════════════════════════════
+   ACTIONS
+   ════════════════════════════════════════ */
+function swM(k){
+  aMes=k;
+  const sem=D.meses[k].semanas;
+  aSem=Object.keys(sem).find(s=>sem[s].activa&&sem[s].datos)||Object.keys(sem)[0];
+  render();
+}
+function swS(k){aSem=k;render();}
+function toggleExt(){
+  showExt=!showExt;
+  document.getElementById('extP').classList.toggle('vis',showExt);
+  document.getElementById('mainC').classList.toggle('hidden',showExt);
+  document.getElementById('navArea').classList.toggle('hidden',showExt);
+  document.getElementById('extBtn').classList.toggle('on',showExt);
+  if(showExt) renderExt();
+}
+
+function render(){
+  renderNav();
+  if(!showExt) renderContent();
+}
+
+render();
+</script>
+</body>
+</html>
