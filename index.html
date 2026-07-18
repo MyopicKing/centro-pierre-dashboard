@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Centro Pierre — Meta Ads · Junio 2026</title>
+<title>Centro Pierre — Meta Ads · Jun–Jul 2026</title>
 <style>
 /* ── TOKENS ── */
 :root{
@@ -117,9 +117,9 @@ tr:hover td{background:#fafafa}
 .empty h3{font-size:15px;font-weight:700;margin-bottom:6px}
 .empty p{font-size:13px;color:var(--mut)}
 
-/* ── EXTRAS & CONCLUSION ── */
-#extP{display:none}
-#extP.vis{display:block}
+/* ── EXTRAS & CONCLUSION & ANÁLISIS ── */
+#extP,#anaP{display:none}
+#extP.vis,#anaP.vis{display:block}
 .eg{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
 @media(min-width:700px){.eg{grid-template-columns:1fr 1fr}}
 @media(min-width:1000px){.eg{grid-template-columns:1fr 1fr 1fr}}
@@ -153,6 +153,7 @@ tr:hover td{background:#fafafa}
     <small>Dashboard Meta Ads · Conversaciones WhatsApp</small>
   </div>
   <div class="hbtns">
+    <button class="hbtn" id="anaBtn" onclick="toggleAna()">Análisis Junio</button>
     <button class="hbtn" id="extBtn" onclick="toggleExt()">Extras + Conclusión</button>
   </div>
 </header>
@@ -165,6 +166,9 @@ tr:hover td{background:#fafafa}
 <main id="mainC"></main>
 <div id="extP">
   <main style="padding:16px;max-width:1100px" id="extC"></main>
+</div>
+<div id="anaP">
+  <main style="padding:16px;max-width:1100px" id="anaC"></main>
 </div>
 
 <script>
@@ -196,18 +200,18 @@ const D = {
           }
         },
         S4: {
-          label:'S4: 22–29 Jun', activa:true, parcial:false,
+          label:'S4: 22–30 Jun', activa:true, parcial:false,
           datos:{
-            spend:239520.14, res:596, imp:215167, alc:128306, clk:3531,
-            v25:18173, v50:10977, v75:7032, v95:5007, v100:4153,
+            spend:270720.74, res:659, imp:241399, alc:138722, clk:3967,
+            v25:21130, v50:12211, v75:7801, v95:5590, v100:4726,
             cursos:{
-              'Pelu Canina':   {r:189,spend:76106.34,imp:69921,alc:45017,clk:1130, v25:6223,v50:3725,v75:2083,v95:1330,v100:1240},
-              'Bartender':     {r:193,spend:77109.24,imp:80861,alc:46361,clk:1095, v25:5773,v50:3022,v75:1820,v95:1235,v100:781},
-              'Maquillaje':    {r:75, spend:30001.87,imp:19135,alc:10242,clk:468,  v25:2167,v50:1350,v75:903, v95:762, v100:635},
-              'Peluquería':    {r:72, spend:27765.89,imp:22300,alc:12471,clk:426,  v25:2001,v50:1244,v75:971, v95:684, v100:644},
-              'Lashista':      {r:28, spend:11772.45,imp:8809, alc:5102, clk:170,  v25:1533,v50:935, v75:716, v95:589, v100:554},
-              'Barbería':      {r:13, spend:6438.31, imp:4669, alc:2743, clk:100,  v25:374, v50:243, v75:186, v95:139, v100:128},
-              'Rep. Celulares':{r:26, spend:10326.04,imp:8972, alc:5236, clk:145,  v25:927, v50:495, v75:348, v95:271, v100:256}
+              'Bartender':     {r:207,spend:84338.81,imp:88482,alc:49498,clk:1202, v25:6172,v50:3232,v75:1946,v95:1325,v100:839},
+              'Pelu Canina':   {r:206,spend:83577.66,imp:76920,alc:48245,clk:1227, v25:6778,v50:4009,v75:2231,v95:1418,v100:1319},
+              'Maquillaje':    {r:91, spend:36549.50,imp:23309,alc:11942,clk:567,  v25:2633,v50:1625,v75:1092,v95:922, v100:767},
+              'Peluquería':    {r:81, spend:32405.30,imp:26230,alc:14131,clk:488,  v25:2310,v50:1434,v75:1118,v95:789, v100:737},
+              'Lashista':      {r:30, spend:12996.55,imp:9723, alc:5413, clk:196,  v25:1692,v50:1033,v75:783, v95:653, v100:612},
+              'Rep. Celulares':{r:29, spend:12546.87,imp:10758,alc:6051, clk:168,  v25:1107,v50:592, v75:413, v95:321, v100:302},
+              'Barbería':      {r:15, spend:8306.05, imp:5977, alc:3442, clk:119,  v25:438, v50:286, v75:218, v95:162, v100:150}
             },
             com:{cot:null,cie:null,fac:null}
           }
@@ -217,30 +221,80 @@ const D = {
     julio_2026:{
       label:'Julio 2026',
       semanas:{
-        S1:{label:'S1: 1–7 Jul',  activa:false,parcial:false,datos:null},
-        S2:{label:'S2: 8–14 Jul', activa:false,parcial:false,datos:null},
+        S1:{
+          label:'S1: 1–7 Jul', activa:true, parcial:false,
+          datos:{
+            spend:202486.77, res:444, imp:171396, alc:113364, clk:2639,
+            v25:15190, v50:8900, v75:6033, v95:4419, v100:3603,
+            cursos:{
+              'Maquillaje':    {r:137,spend:69787.87,imp:43897,alc:26397,clk:749, v25:4649,v50:2850,v75:1933,v95:1654,v100:1159},
+              'Peluquería':    {r:88, spend:39752.29,imp:31792,alc:21240,clk:487, v25:2544,v50:1556,v75:1211,v95:731, v100:687},
+              'Pelu Canina':   {r:87, spend:35714.70,imp:38770,alc:27069,clk:582, v25:3083,v50:1711,v75:981, v95:618, v100:570},
+              'Bartender':     {r:63, spend:23162.14,imp:29763,alc:20789,clk:391, v25:1911,v50:976, v75:607, v95:414, v100:242},
+              'Lashista':      {r:25, spend:14187.01,imp:11333,alc:7490, clk:157, v25:1539,v50:940, v75:659, v95:533, v100:506},
+              'Rep. Celulares':{r:23, spend:9742.51, imp:8434, alc:5007, clk:146, v25:919, v50:496, v75:358, v95:287, v100:268},
+              'Barbería':      {r:21, spend:10140.25,imp:7407, alc:5372, clk:127, v25:545, v50:371, v75:284, v95:182, v100:171}
+            },
+            com:{cot:null,cie:null,fac:null}
+          }
+        },
+        S2:{
+          label:'S2: 8–14 Jul', activa:true, parcial:false,
+          datos:{
+            spend:213442.26, res:384, imp:189035, alc:128694, clk:2965,
+            v25:16847, v50:9727, v75:6721, v95:4912, v100:4352,
+            cursos:{
+              'Pelu Canina':   {r:121,spend:66624.42,imp:72857,alc:49325,clk:1054, v25:5889,v50:3091,v75:1929,v95:1246,v100:1149},
+              'Peluquería':    {r:75, spend:46006.84,imp:32048,alc:20916,clk:546,  v25:2696,v50:1700,v75:1317,v95:818, v100:760},
+              'Maquillaje':    {r:72, spend:40511.39,imp:23202,alc:14581,clk:471,  v25:2675,v50:1619,v75:1087,v95:942, v100:730},
+              'Bartender':     {r:47, spend:21009.66,imp:26438,alc:19258,clk:343,  v25:1608,v50:799, v75:479, v95:331, v100:217},
+              'Lashista':      {r:41, spend:22474.10,imp:21094,alc:15750,clk:329,  v25:2763,v50:1812,v75:1404,v95:1208,v100:1149},
+              'Barbería':      {r:16, spend:8584.25, imp:5923, alc:4353, clk:104,  v25:432, v50:299, v75:227, v95:147, v100:139},
+              'Rep. Celulares':{r:12, spend:8231.60, imp:7473, alc:4511, clk:118,  v25:784, v50:407, v75:278, v95:220, v100:208}
+            },
+            com:{cot:null,cie:null,fac:null}
+          }
+        },
         S3:{label:'S3: 15–21 Jul',activa:false,parcial:false,datos:null},
         S4:{label:'S4: 22–28 Jul',activa:false,parcial:false,datos:null}
       }
     }
   },
-  ads:[
-    {n:'Reel - Pelu Canina - Feb',      r:187,spend:82570.43,imp:61407,alc:40392,clk:1215,cpr:441.55,ctr:1.98,v25:6053,v50:3530,v75:2237,v95:1487,v100:1382,t:'Reel'},
-    {n:'Reel - Bartender - Nov',        r:135,spend:49590.68,imp:48060,alc:28060,clk:729, cpr:367.34,ctr:1.52,v25:3523,v50:1886,v75:1162,v95:772, v100:474, t:'Reel'},
-    {n:'Reel - Peluqueria - Jun A',     r:112,spend:48134.78,imp:32051,alc:18350,clk:620, cpr:429.77,ctr:1.93,v25:2697,v50:1713,v75:1373,v95:990, v100:923, t:'Reel'},
-    {n:'Reel - Maquillaje - Jun',       r:63, spend:26512.41,imp:15334,alc:8165, clk:370, cpr:420.83,ctr:2.41,v25:1787,v50:1078,v75:724, v95:616, v100:515, t:'Reel'},
-    {n:'Reel - Barberia - Jun B',       r:39, spend:19612.55,imp:12765,alc:7794, clk:222, cpr:502.89,ctr:1.74,v25:804, v50:524, v75:415, v95:306, v100:285, t:'Reel'},
-    {n:'Histo - Lashista - Jun',        r:27, spend:17772.56,imp:11544,alc:6998, clk:204, cpr:658.24,ctr:1.77,v25:2069,v50:1218,v75:917, v95:757, v100:718, t:'Histo'},
-    {n:'Reel - Peluqueria - Jun B',     r:24, spend:10999.58,imp:6465, alc:5446, clk:146, cpr:458.32,ctr:2.26,v25:604, v50:383, v75:301, v95:229, v100:214, t:'Reel'},
-    {n:'Histo - Peluqueria - Jun',      r:14, spend:7143.88, imp:4883, alc:3613, clk:81,  cpr:510.28,ctr:1.66,v25:1246,v50:574, v75:378, v95:327, v100:301, t:'Histo'},
-    {n:'Histo - Rep Celulares - Jun',   r:12, spend:12169.32,imp:9798, alc:6839, clk:124, cpr:1014.11,ctr:1.27,v25:1029,v50:507, v75:355, v95:279, v100:263, t:'Histo'},
-    {n:'Reel - Lashista - Jun',         r:9,  spend:3375.81, imp:1750, alc:1218, clk:42,  cpr:375.09,ctr:2.40,v25:299, v50:187, v75:117, v95:82,  v100:74,  t:'Reel'},
-    {n:'Reel - Barberia - Jun A',       r:8,  spend:2810.02, imp:1822, alc:1545, clk:22,  cpr:351.25,ctr:1.21,v25:93,  v50:64,  v75:47,  v95:36,  v100:35,  t:'Reel'},
-    {n:'Histo - Maquillaje - Jun',      r:6,  spend:5334.37, imp:2953, alc:2202, clk:62,  cpr:889.06,ctr:2.10,v25:593, v50:322, v75:231, v95:190, v100:183, t:'Histo'},
-    {n:'Reel - Rep Celulares - Jun A',  r:2,  spend:781.14,  imp:513,  alc:392,  clk:11,  cpr:390.57,ctr:2.14,v25:25,  v50:15,  v75:11,  v95:8,   v100:8,   t:'Reel'},
-    {n:'Reel - Rep Celulares - Jun B',  r:1,  spend:1417.15, imp:912,  alc:781,  clk:10,  cpr:1417.15,ctr:1.10,v25:29, v50:15,  v75:10,  v95:6,   v100:6,   t:'Reel'},
-    {n:'Histo - Barberia - Jun',        r:1,  spend:2483.38, imp:2457, alc:1967, clk:26,  cpr:2483.38,ctr:1.06,v25:302,v50:152, v75:100, v95:76,  v100:74,  t:'Histo'}
-  ],
+  adsByMonth:{
+    junio_2026:[
+    {n:'Reel - Pelu Canina - Feb',r:270,spend:122900.59,imp:101808,alc:58187,clk:1798,cpr:455.19,ctr:1.77,v25:9600,v50:5570,v75:3360,v95:2194,v100:2047,t:'Reel'},
+    {n:'Reel - Bartender - Nov',r:231,spend:96031.5,imp:99152,alc:51609,clk:1376,cpr:415.72,ctr:1.39,v25:6974,v50:3650,v75:2190,v95:1492,v100:944,t:'Reel'},
+    {n:'Reel - Peluqueria - Jun A',r:157,spend:70274.18,imp:50380,alc:24593,clk:945,cpr:447.61,ctr:1.88,v25:4235,v50:2664,v75:2120,v95:1525,v100:1419,t:'Reel'},
+    {n:'Reel - Maquillaje - Jun',r:128,spend:51929.09,imp:32204,alc:14799,clk:775,cpr:405.7,ctr:2.41,v25:3644,v50:2245,v75:1507,v95:1281,v100:1068,t:'Reel'},
+    {n:'Reel - Barberia - Jun B',r:51,spend:25042.34,imp:16819,alc:9264,clk:307,cpr:491.03,ctr:1.83,v25:1092,v50:724,v75:569,v95:429,v100:398,t:'Reel'},
+    {n:'Histo - Lashista - Jun',r:44,spend:25327.71,imp:17700,alc:9293,clk:325,cpr:575.63,ctr:1.84,v25:3141,v50:1882,v75:1428,v95:1196,v100:1129,t:'Histo'},
+    {n:'Histo - Rep Celulares - Jun',r:34,spend:21946.13,imp:18660,alc:10825,clk:255,cpr:645.47,ctr:1.37,v25:1909,v50:979,v75:688,v95:540,v100:507,t:'Histo'},
+    {n:'Reel - Peluqueria - Jun B',r:24,spend:11307.68,imp:6748,alc:5658,clk:147,cpr:471.15,ctr:2.18,v25:629,v50:399,v75:313,v95:236,v100:221,t:'Reel'},
+    {n:'Histo - Peluqueria - Jun',r:15,spend:7434.79,imp:5132,alc:3770,clk:85,cpr:495.65,ctr:1.66,v25:1313,v50:606,v75:398,v95:342,v100:314,t:'Histo'},
+    {n:'Reel - Lashista - Jun',r:9,spend:3817.16,imp:2075,alc:1422,clk:45,cpr:424.13,ctr:2.17,v25:355,v50:227,v75:144,v95:102,v100:93,t:'Reel'},
+    {n:'Reel - Barberia - Jun A',r:8,spend:3012.81,imp:1933,alc:1643,clk:23,cpr:376.6,ctr:1.19,v25:99,v50:65,v75:48,v95:37,v100:36,t:'Reel'},
+    {n:'Histo - Maquillaje - Jun',r:7,spend:5551.44,imp:3067,alc:2270,clk:66,cpr:793.06,ctr:2.15,v25:617,v50:333,v75:240,v95:197,v100:189,t:'Histo'},
+    {n:'Reel - Rep Celulares - Jun A',r:2,spend:821.5,imp:543,alc:404,clk:12,cpr:410.75,ctr:2.21,v25:27,v50:16,v75:12,v95:9,v100:9,t:'Reel'},
+    {n:'Histo - Barberia - Jun',r:1,spend:2857.87,imp:2702,alc:2203,clk:28,cpr:2857.87,ctr:1.04,v25:335,v50:170,v75:111,v95:85,v100:83,t:'Histo'},
+    {n:'Reel - Rep Celulares - Jun B',r:1,spend:1417.15,imp:912,alc:781,clk:10,cpr:1417.15,ctr:1.1,v25:29,v50:15,v75:10,v95:6,v100:6,t:'Reel'}
+    ],
+    julio_2026:[
+    {n:'Reel - Pelu Canina - Feb',r:208,spend:102339.12,imp:111627,alc:0,clk:1636,cpr:492.01,ctr:1.47,v25:8972,v50:4802,v75:2910,v95:1864,v100:1719,t:'Reel'},
+    {n:'Reel - Maquillaje - Jun',r:202,spend:106968.32,imp:64578,alc:0,clk:1182,cpr:529.55,ctr:1.83,v25:6958,v50:4267,v75:2884,v95:2481,v100:1780,t:'Reel'},
+    {n:'Reel - Peluqueria - Jun A',r:152,spend:82559.46,imp:61066,alc:0,clk:975,cpr:543.15,ctr:1.6,v25:4725,v50:2989,v75:2355,v95:1402,v100:1315,t:'Reel'},
+    {n:'Reel - Bartender - Nov',r:110,spend:44171.8,imp:56201,alc:0,clk:734,cpr:401.56,ctr:1.31,v25:3519,v50:1775,v75:1086,v95:745,v100:459,t:'Reel'},
+    {n:'Histo - Lashista - Jun',r:59,spend:32863.87,imp:29671,alc:0,clk:440,cpr:557.01,ctr:1.48,v25:3924,v50:2533,v75:1943,v95:1666,v100:1584,t:'Histo'},
+    {n:'Histo - Rep Celulares - Jun',r:35,spend:17652.53,imp:15674,alc:0,clk:257,cpr:504.36,ctr:1.64,v25:1684,v50:888,v75:623,v95:497,v100:468,t:'Histo'},
+    {n:'Reel - Barberia - Jun B',r:33,spend:17833.23,imp:12582,alc:0,clk:212,cpr:540.4,ctr:1.68,v25:897,v50:629,v75:480,v95:306,v100:287,t:'Reel'},
+    {n:'Reel - Lashista - Jun',r:7,spend:3797.24,imp:2756,alc:0,clk:46,cpr:542.46,ctr:1.67,v25:378,v50:219,v75:120,v95:75,v100:71,t:'Reel'},
+    {n:'Histo - Maquillaje - Jun',r:7,spend:3330.94,imp:2521,alc:0,clk:38,cpr:475.85,ctr:1.51,v25:366,v50:202,v75:136,v95:115,v100:109,t:'Histo'},
+    {n:'Reel - Peluqueria - Jun B',r:6,spend:1176.97,imp:1014,alc:0,clk:17,cpr:196.16,ctr:1.68,v25:76,v50:43,v75:30,v95:25,v100:23,t:'Reel'},
+    {n:'Histo - Peluqueria - Jun',r:5,spend:2022.7,imp:1760,alc:0,clk:41,cpr:404.54,ctr:2.33,v25:439,v50:224,v75:143,v95:122,v100:109,t:'Histo'},
+    {n:'Reel - Barberia - Jun A',r:3,spend:309.11,imp:317,alc:0,clk:13,cpr:103.04,ctr:4.1,v25:22,v50:15,v75:14,v95:9,v100:9,t:'Reel'},
+    {n:'Histo - Barberia - Jun',r:1,spend:582.16,imp:431,alc:0,clk:6,cpr:582.16,ctr:1.39,v25:58,v50:26,v75:17,v95:14,v100:14,t:'Histo'},
+    {n:'Reel - Rep Celulares - Jun A',r:0,spend:321.58,imp:233,alc:0,clk:7,cpr:321.58,ctr:3.0,v25:19,v50:15,v75:13,v95:10,v100:8,t:'Reel'}
+    ]
+  },
   extras:{
     periodo:'26 de Mayo – 24 de Junio de 2026',
     genero:[
@@ -259,7 +313,7 @@ const D = {
 /* ════════════════════════════════════════
    STATE
    ════════════════════════════════════════ */
-let aMes='junio_2026', aSem='S3', showExt=false;
+let aMes='junio_2026', aSem='S3', showExt=false, showAna=false;
 
 /* ════════════════════════════════════════
    FORMATTERS — defensivos contra undefined/NaN/null
@@ -439,7 +493,7 @@ function build(d,prev,isTot,isParcial){
     ${kpi('Inversión Total',fARS(d.spend),'período activo',dlta(d.spend,prev?.spend))}
     ${kpi('Alcance',fN(d.alc),'personas únicas',dlta(d.alc,prev?.alc))}
   </div>`;
-  if(isParcial&&prev) h+=`<p class="nt" style="font-size:11px;margin:4px 0 8px">Comparación vs S3 (7 días vs 4 días — referencial)</p>`;
+  if(isParcial&&prev) h+=`<p class="nt" style="font-size:11px;margin:4px 0 8px">Comparación vs semana anterior (referencial)</p>`;
 
   /* ── Gráfico doble ── */
   h+=`<div class="sec">Conversaciones y CPR por Curso</div>`;
@@ -571,32 +625,38 @@ function build(d,prev,isTot,isParcial){
 
   /* ── 5. POR ANUNCIO ── */
   if(!isTot){
-    h+=`<div class="sec">5 · Por Anuncio <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px">— Jun 15–25 combinado</span></div>`;
-    const sorted=[...D.ads].sort((a,b)=>b.r-a.r);
-    const minAd=Math.min(...sorted.map(a=>a.cpr)), maxAd=Math.max(...sorted.map(a=>a.cpr));
-    h+=`<div class="tw"><table id="tblA">
-      <thead><tr>
-        <th>Anuncio</th><th>Tipo</th><th>Conv.</th><th>CPR (ARS)</th>
-        <th>CTR</th><th>Clics</th><th>Hook 25%</th><th>Ret. 50%</th>
-      </tr></thead><tbody>`;
-    sorted.forEach(a=>{
-      const h25=safe(a.imp)?null:a.v25/a.imp*100;
-      const r50=safe(a.imp)?null:a.v50/a.imp*100;
-      h+=`<tr>
-        <td>${a.n}</td>
-        <td class="mute">${a.t}</td>
-        <td>${fN(a.r)}</td>
-        <td class="${a.cpr===minAd?'best':a.cpr===maxAd?'wrst':''}">${fCPR(a.cpr)}</td>
-        <td>${fP(a.ctr)}</td>
-        <td>${fN(a.clk)}</td>
-        <td>${fP(h25)}</td>
-        <td>${fP(r50)}</td>
-      </tr>`;
-    });
-    h+=`</tbody></table></div>`;
+    const monthAds=D.adsByMonth[aMes]||[];
+    const adLbl=aMes==='junio_2026'?'Junio · mes completo (1–30)':(aMes==='julio_2026'?'Julio · 1–14 (S1+S2)':'combinado');
+    h+=`<div class="sec">5 · Por Anuncio <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px">— ${adLbl}</span></div>`;
+    if(!monthAds.length){
+      h+=`<p class="mute" style="margin-bottom:16px">Sin datos por anuncio para este mes.</p>`;
+    } else {
+      const sorted=[...monthAds].sort((a,b)=>b.r-a.r);
+      const minAd=Math.min(...sorted.map(a=>a.cpr)), maxAd=Math.max(...sorted.map(a=>a.cpr));
+      h+=`<div class="tw"><table id="tblA">
+        <thead><tr>
+          <th>Anuncio</th><th>Tipo</th><th>Conv.</th><th>CPR (ARS)</th>
+          <th>CTR</th><th>Clics</th><th>Hook 25%</th><th>Ret. 50%</th>
+        </tr></thead><tbody>`;
+      sorted.forEach(a=>{
+        const h25=safe(a.imp)?null:a.v25/a.imp*100;
+        const r50=safe(a.imp)?null:a.v50/a.imp*100;
+        h+=`<tr>
+          <td>${a.n}</td>
+          <td class="mute">${a.t}</td>
+          <td>${fN(a.r)}</td>
+          <td class="${a.cpr===minAd?'best':a.cpr===maxAd?'wrst':''}">${fCPR(a.cpr)}</td>
+          <td>${fP(a.ctr)}</td>
+          <td>${fN(a.clk)}</td>
+          <td>${fP(h25)}</td>
+          <td>${fP(r50)}</td>
+        </tr>`;
+      });
+      h+=`</tbody></table></div>`;
+    }
   }
 
-  h+=`<div class="fnote">Cuenta Meta Ads: 182370584 · Objetivo: Conversaciones WhatsApp (messaging_deep_conversation) · Campañas inactivas Jun 1–14 — datos disponibles desde Jun 15. Hook Rate calculado como video_p25 / impresiones (Meta no reporta 3-sec para objetivo mensajes).</div>`;
+  h+=`<div class="fnote">Cuenta Meta Ads: 182370584 · Objetivo: Conversaciones WhatsApp (messaging_deep_conversation) · Campañas inactivas Jun 1–14 — datos disponibles desde Jun 15. Alcance deduplicado por período (no se suma día a día). Hook Rate calculado como video_p25 / impresiones (Meta no reporta 3-sec para objetivo mensajes).</div>`;
   return h;
 }
 
@@ -618,6 +678,88 @@ function calcCom(){
 }
 
 /* ════════════════════════════════════════
+   ANÁLISIS JUNIO — mes cerrado (qué y por qué)
+   ════════════════════════════════════════ */
+function renderAna(){
+  const s3=enrich(D.meses.junio_2026.semanas.S3.datos);
+  const s4=enrich(D.meses.junio_2026.semanas.S4.datos);
+  const mes=getTot('junio_2026');
+
+  // CPR por curso (mes)
+  const cur=Object.entries(mes.cursos).map(([k,c])=>({k,r:c.r,cpr:c.r>0?c.spend/c.r:Infinity,spend:c.spend,hook:c.imp>0?c.v25/c.imp*100:0}));
+  const byCpr=[...cur].sort((a,b)=>a.cpr-b.cpr);
+  const best=byCpr[0], worst=byCpr[byCpr.length-1];
+
+  // Top 3 anuncios por conversaciones
+  const top=[...D.adsByMonth.junio_2026].sort((a,b)=>b.r-a.r).slice(0,3);
+
+  let h=`<div class="sec">Análisis de Junio 2026 — Mes cerrado <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px">— solo Meta Ads</span></div>`;
+
+  /* KPIs globales */
+  h+=`<div class="kg k4">
+    ${kpi('Inversión mes',fARS(mes.spend),'Jun 15–30 (activo)',' ',true)}
+    ${kpi('Conversaciones',fN(mes.res),'mensajes iniciados','',true)}
+    ${kpi('CPR promedio',fCPR(mes.cpr)+' ARS','costo por conv.')}
+    ${kpi('Impresiones',fN(mes.imp),'total del mes')}
+  </div>`;
+  h+=`<div class="kg k4" style="margin-top:8px">
+    ${kpi('Mejor curso',best.k,fCPR(best.cpr)+' CPR')}
+    ${kpi('Peor curso',worst.k,fCPR(worst.cpr)+' CPR')}
+    ${kpi('Frecuencia',safe(mes.freq)?'—':Number(mes.freq).toFixed(2)+'x','imp / alcance ponderado')}
+    ${kpi('Hook rate',fP(mes.h25),'v25 / impresiones')}
+  </div>`;
+
+  /* S3 vs S4 */
+  h+=`<div class="sec">Comparativa S3 (15–21) vs S4 (22–30)</div>`;
+  const rows=[
+    ['Inversión',fARS(s3.spend),fARS(s4.spend),(s4.spend-s3.spend)/s3.spend*100,false],
+    ['Conversaciones',fN(s3.res),fN(s4.res),(s4.res-s3.res)/s3.res*100,false],
+    ['CPR',fCPR(s3.cpr),fCPR(s4.cpr),(s4.cpr-s3.cpr)/s3.cpr*100,true],
+    ['CPM',fCPR(s3.cpm),fCPR(s4.cpm),(s4.cpm-s3.cpm)/s3.cpm*100,true],
+    ['CTR',fP(s3.ctr),fP(s4.ctr),(s4.ctr-s3.ctr)/s3.ctr*100,false],
+    ['Frecuencia',fP(s3.freq,2),fP(s4.freq,2),(s4.freq-s3.freq)/s3.freq*100,true],
+    ['Hook Rate',fP(s3.h25),fP(s4.h25),(s4.h25-s3.h25)/s3.h25*100,false]
+  ];
+  h+=`<div class="tw"><table><thead><tr><th>Métrica</th><th>S3 (15–21)</th><th>S4 (22–30)</th><th>Δ%</th></tr></thead><tbody>`;
+  rows.forEach(([m,a,b,dp,inv])=>{
+    const good=inv?dp<0:dp>0;
+    h+=`<tr><td>${m}</td><td>${a}</td><td>${b}</td><td class="${good?'best':'wrst'}">${dp>0?'+':''}${dp.toFixed(1)}%</td></tr>`;
+  });
+  h+=`</tbody></table></div>`;
+
+  /* Top 3 anuncios */
+  h+=`<div class="sec">Top 3 anuncios del mes (por conversaciones)</div>`;
+  h+=`<div class="tw"><table><thead><tr><th>Anuncio</th><th>Tipo</th><th>Conv.</th><th>CPR</th><th>Hook 25%</th></tr></thead><tbody>`;
+  top.forEach(a=>{
+    const hk=a.imp>0?a.v25/a.imp*100:null;
+    h+=`<tr><td>${a.n}</td><td class="mute">${a.t}</td><td>${fN(a.r)}</td><td>${fCPR(a.cpr)}</td><td>${fP(hk)}</td></tr>`;
+  });
+  h+=`</tbody></table></div>`;
+
+  /* Lecturas — qué y por qué */
+  h+=`<div class="sec">Lectura del mes — qué pasó y por qué</div>`;
+  const ins=[
+    {t:'good',ti:'La segunda mitad del mes fue mucho más eficiente',
+      tx:`De S3 a S4 la inversión subió +51% (${fARS(s3.spend)} → ${fARS(s4.spend)}) pero las conversaciones se duplicaron (+104%), así que el CPR bajó 26% (${fCPR(s3.cpr)} → ${fCPR(s4.cpr)}). El algoritmo salió de fase de aprendizaje y encontró audiencia más calificada sin cambiar creativos.`},
+    {t:'good',ti:'Bartender y Pelu Canina traccionaron el volumen',
+      tx:`Bartender pasó de 24 a 207 conversaciones y Pelu Canina de 64 a 206 entre S3 y S4. Son los dos cursos que el sistema priorizó al escalar presupuesto, y cerraron el mes como los de menor CPR (${fCPR(best.cpr)} Bartender).`},
+    {t:'warn',ti:'Barbería se frenó al escalar',
+      tx:`Barbería cayó de 45 conversaciones en S3 a 15 en S4 y su CPR subió a ~$554. Cuando el presupuesto se concentró en los cursos ganadores, Barbería perdió entrega. Candidato a aislar en su propio conjunto o refrescar creativo.`},
+    {t:'warn',ti:'Rep. Celulares es el curso más caro del mes',
+      tx:`Cerró junio en ${fCPR(worst.cpr)} por conversación, muy por encima del promedio de ${fCPR(mes.cpr)}. Volumen bajo (37 conv) y CTR flojo: conviene revisar segmentación y oferta antes de sostener inversión.`},
+    {t:'info',ti:'Retención de video sólida pero con caída al escalar',
+      tx:`El hook rate del mes fue ${fP(mes.h25)} (v25/impresiones). Bajó de ${fP(s3.h25)} en S3 a ${fP(s4.h25)} en S4: al ampliar audiencia entra público más frío, algo esperable. Lashista es el de mejor retención (hook ~17%), señal de creativo fuerte pese a su CPR alto.`},
+    {t:'info',ti:'Frecuencia bajo control — hay espacio para escalar',
+      tx:`La frecuencia ponderada del mes fue ${safe(mes.freq)?'—':Number(mes.freq).toFixed(2)}x, sin señales de saturación de audiencia. Se puede seguir subiendo presupuesto en los cursos ganadores sin quemar público en el corto plazo.`}
+  ];
+  ins.forEach(i=>{ h+=`<div class="insight ${i.t}"><h4>${i.ti}</h4><p>${i.tx}</p></div>`; });
+
+  h+=`<p style="font-size:11px;color:var(--mut);font-style:italic;margin:16px 0 4px;line-height:1.6"><em>Análisis basado únicamente en datos de Meta Ads. A falta de feedback del cliente, faltan datos de negocio relevantes —cotizaciones, cierres/inscripciones, facturación y ticket promedio— sin los cuales no es posible medir rentabilidad real (CAC, ROAS, tasa de cierre) ni saber qué curso es más rentable más allá del costo por conversación.</em></p>`;
+
+  document.getElementById('anaC').innerHTML=h;
+}
+
+/* ════════════════════════════════════════
    EXTRAS + CONCLUSIÓN
    ════════════════════════════════════════ */
 function renderExt(){
@@ -625,33 +767,34 @@ function renderExt(){
   const maxG=Math.max(...e.genero.map(g=>g.spend));
   const maxP=Math.max(...e.plataforma.map(p=>p.spend));
 
-  /* Conclusiones cruzadas */
-  const s3=enrich(D.meses.junio_2026.semanas.S3.datos);
-  const s4=enrich(D.meses.junio_2026.semanas.S4.datos);
+  /* Conclusiones cruzadas — actualizadas con mes cerrado + Julio */
+  const jun=getTot('junio_2026');
+  const js1=enrich(D.meses.julio_2026.semanas.S1.datos);
+  const js2=enrich(D.meses.julio_2026.semanas.S2.datos);
   const insights=[
     {
-      t:'good',ti:'Eficiencia mejoró 36% en la segunda semana',
-      tx:`CPR cayó de ${fCPR(s3.cpr)} (S3, 7 días) a ${fCPR(s4.cpr)} (S4, 4 días). El algoritmo encontró audiencia más calificada sin cambios en creativos.`
+      t:'good',ti:'Junio cerró en $458 de CPR con 982 conversaciones',
+      tx:`El mes completo (15–30 Jun activo) sumó ${fARS(jun.spend)} de inversión y ${fN(jun.res)} conversaciones. La eficiencia mejoró fuerte en la segunda quincena (CPR de S4 ${fCPR(enrich(D.meses.junio_2026.semanas.S4.datos).cpr)} vs S3 ${fCPR(enrich(D.meses.junio_2026.semanas.S3.datos).cpr)}).`
     },
     {
-      t:'good',ti:'Pelu Canina y Bartender dominaron S4',
-      tx:`Pelu Canina pasó de 64 a 123 conversaciones. Bartender explotó de 24 a 111. Ambos bajaron CPR más del 30%. Son los adsets que el algoritmo priorizó.`
+      t:'good',ti:'Bartender y Pelu Canina fueron los motores',
+      tx:`Cerraron el mes con el mayor volumen y el menor CPR. Son los cursos donde el algoritmo concentró la entrega al escalar, y conviene sostenerlos como base del presupuesto.`
     },
     {
-      t:'warn',ti:'Barbería se frenó en S4 — revisar presupuesto',
-      tx:`Cayó de 45 conversaciones ($502 CPR) a solo 3 ($766 CPR) en 4 días. No hay señal orgánica de fatiga — posible pausa o techo de gasto diario alcanzado.`
+      t:'warn',ti:'Julio arrancó más caro',
+      tx:`En Julio el CPR subió de ${fCPR(js1.cpr)} (S1) a ${fCPR(js2.cpr)} (S2) con menos conversaciones (${fN(js1.res)} → ${fN(js2.res)}). Maquillaje se enfrió tras un S1 muy fuerte (137 conv) y Pelu Canina tomó el liderazgo. Vale la pena vigilar fatiga de creativo.`
     },
     {
-      t:'warn',ti:'Rep. Celulares: CPR más caro, volumen bajo',
-      tx:`En S3 costó $1.454 por conversación. Mejoró a $389 en S4 pero sigue siendo el adset menos eficiente. Candidato a revisar segmentación o creativo.`
+      t:'warn',ti:'Rep. Celulares y Barbería, a revisar',
+      tx:`Rep. Celulares sigue siendo el curso más caro por conversación y Barbería pierde entrega cuando se escala el resto. Candidatos a refrescar creativo o aislar presupuesto.`
     },
     {
-      t:'info',ti:'Campañas inactivas Jun 1–14',
-      tx:`No hay inversión ni resultados en las primeras dos semanas del mes. Todos los datos corresponden al período Jun 15–25.`
+      t:'info',ti:'Distribución por plataforma y género estable',
+      tx:`Facebook concentra ~66% de la inversión e Instagram ~28%. La audiencia es mayormente femenina (~80%). Datos orientativos de los últimos 30 días, no cambian con el selector de semana.`
     },
     {
-      t:'good',ti:'Frecuencia controlada — sin saturación',
-      tx:`Todos los adsets activos mantienen frecuencia entre 1.3 y 1.9. No hay señal de quema de audiencia. Se puede escalar presupuesto con seguridad.`
+      t:'info',ti:'Falta data de negocio para medir rentabilidad',
+      tx:`Todo el análisis es sobre métricas de Meta. Sin cotizaciones, cierres y facturación del cliente no se puede calcular CAC, ROAS ni tasa de cierre reales. Los campos comerciales del dashboard están listos para cargarse cuando Pierre los informe.`
     }
   ];
 
@@ -686,7 +829,7 @@ function renderExt(){
     h+=`<div class="insight ${i.t}"><h4>${i.ti}</h4><p>${i.tx}</p></div>`;
   });
   h+=`</div></div>`;
-  h+=`<p style="font-size:11px;color:var(--mut);font-style:italic;margin:12px 0;"><em>Datos: ${e.periodo}. Orientativos — no cambian con el selector de semana.</em></p>`;
+  h+=`<p style="font-size:11px;color:var(--mut);font-style:italic;margin:12px 0;"><em>Género y plataforma: ${e.periodo} (ventana rodante de Meta, no se repulló). Conclusiones: Jun 15–30 + Jul 1–14.</em></p>`;
   document.getElementById('extC').innerHTML=h;
 }
 
@@ -710,7 +853,7 @@ function renderContent(){
   if(!s.activa||!s.datos){
     mc.innerHTML=`<div class="empty">
       <h3>Sin actividad este período</h3>
-      <p>Las campañas no estuvieron activas durante ${s.label.replace(/S\d+:\s/,'')}. Los datos comienzan el 15 de Junio.</p>
+      <p>Las campañas no estuvieron activas durante ${s.label.replace(/S\d+:\s/,'')}.</p>
     </div>`;
     return;
   }
@@ -730,18 +873,27 @@ function swM(k){
   render();
 }
 function swS(k){aSem=k;render();}
-function toggleExt(){
-  showExt=!showExt;
+
+function showPanel(which){
+  showExt = which==='ext';
+  showAna = which==='ana';
+  const anyP = showExt||showAna;
   document.getElementById('extP').classList.toggle('vis',showExt);
-  document.getElementById('mainC').classList.toggle('hidden',showExt);
-  document.getElementById('navArea').classList.toggle('hidden',showExt);
+  document.getElementById('anaP').classList.toggle('vis',showAna);
+  document.getElementById('mainC').classList.toggle('hidden',anyP);
+  document.getElementById('navArea').classList.toggle('hidden',anyP);
   document.getElementById('extBtn').classList.toggle('on',showExt);
+  document.getElementById('anaBtn').classList.toggle('on',showAna);
   if(showExt) renderExt();
+  if(showAna) renderAna();
+  if(!anyP) renderContent();
 }
+function toggleExt(){ showPanel(showExt?null:'ext'); }
+function toggleAna(){ showPanel(showAna?null:'ana'); }
 
 function render(){
   renderNav();
-  if(!showExt) renderContent();
+  if(!showExt&&!showAna) renderContent();
 }
 
 render();
